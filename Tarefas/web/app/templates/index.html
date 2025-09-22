@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Tarefas</title>
+    <title>Gerenciador de Tarefas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css')}}">
+
 </head>
 <body>
 
@@ -18,15 +20,11 @@
 <h1>Tarefas</h1>
 <ul>
     {% for tarefa in tarefas %}
-        <li>  
-            <form action = "{{url_for('hello.editarTarefa', tarefa_id = tarefa.id)}}" method="POST">
+        <li> <!-- coloquei dentro do mesmo form os dois buttons para ficar na mesma caixa -->
+            <form action="{{url_for('hello.editarTarefa', tarefa_id=tarefa.id)}}" method="POST">
                 <input type="text" name="desc_tarefa" value="{{tarefa.descricao}}" required>
-                <button type="submit"> Atualizar</button>
-            </form>
-
-            <form action="{{url_for('hello.removerTarefa', tarefa_id = tarefa.id)}}",
-            method="POST">
-                <button action="submit">Remover</button>
+                <button type="submit" name="acao" value="atualizar">Atualizar</button>
+                <button type="submit" formaction="{{url_for('hello.removerTarefa', tarefa_id=tarefa.id)}}" name="acao" value="remover">Remover</button>
             </form>
         </li>
     {% endfor %}
