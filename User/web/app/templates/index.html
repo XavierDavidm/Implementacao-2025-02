@@ -6,29 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello World</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css')}}">
-
 </head>
+    {% with messages = get_flashed_messages(with_categories=true)%}
+        {%if messages %}
+            {% for category, messages in messages %}
+                <div class="alert alert-{{category}}">{{messages}}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
 <body>
 <h1>Criar Usuário</h1>
-<form class="create-form" action="/novoUsuario" method="POST">
-    <label for="nome">Nome Usuário</label>
-    <input type="text" id="nome" name="nome_usuario" placeholder="Nome" required>
-    <button type="submit">Cadastrar Usuário</button>
+<form class="create-form" action={{ url_for('hello.novoUsuario') }} method="POST" novalidate>
+    {{ form.hidden_tag() }}
+    {{ form.nome_usuario.label }}
+    {{ form.nome_usuario("form-control", placeholder="Nome do Usuário") }}
+    {{ form.submit(class="btn-submit")}}
 </form>
 
 <h1>Usuários</h1>
 <ul>
     {% for usuario in usuarios %}
         <li>  
-            <form action = "{{url_for('hello.editarUsuario', usuario_id = usuario.id)}}" 
-            method="POST">
+            <form action = "{{url_for('hello.editarUsuario', usuario_id = usuario.id)}}" method="POST">
                 <input type="text" name="nome_usuario" value="{{usuario.username}}" required>
                 <button type="submit"> Atualizar</button>
-            </form>
-
-            <form action="{{url_for('hello.removerUsuario', usuario_id = usuario.id)}}",
-            method="POST">
-                <button action="submit">Remover</button>
+                <button type="submit" formaction="{{url_for('hello.removerUsuario', usuario_id = usuario.id)}}"> Remover</button>
             </form>
         </li>
     {% endfor %}
