@@ -17,7 +17,7 @@
 
 <body>
 <h1>Criar Usuário</h1>
-<form class="create-form" action={{ url_for('hello.novoUsuario') }} method="POST" novalidate>
+<form class="create-form" action="{{url_for('hello.novoUsuario')}}" method="POST" novalidate>
     {{ form.hidden_tag() }}
     {{ form.nome_usuario.label }}
     {{ form.nome_usuario("form-control", placeholder="Nome do Usuário") }}
